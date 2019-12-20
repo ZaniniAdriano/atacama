@@ -53,7 +53,7 @@ Name             Origin             Length             Attributes
 Linker script and memory map
 
 
-.text           0x0000000000401000     0x5000
+.text           0x0000000000401000     0x6000
                 0x0000000000401000                code = .
                 0x0000000000401000                _code = .
                 0x0000000000401000                __code = .
@@ -284,147 +284,170 @@ Linker script and memory map
                 0x0000000000405e18                ttyname_r
                 0x0000000000405e22                isatty
                 0x0000000000405e45                getopt
- .text          0x0000000000405e4f       0x28 stubs.o
-                0x0000000000405e4f                gramado_system_call
-                0x0000000000406000                . = ALIGN (0x1000)
- *fill*         0x0000000000405e77      0x189 
+ .text          0x0000000000405e4f      0x165 termios.o
+                0x0000000000405e4f                tcgetattr
+                0x0000000000405e6d                tcsetattr
+                0x0000000000405ee6                tcsendbreak
+                0x0000000000405ef0                tcdrain
+                0x0000000000405efa                tcflush
+                0x0000000000405f04                tcflow
+                0x0000000000405f0e                cfmakeraw
+                0x0000000000405f80                cfgetispeed
+                0x0000000000405f8b                cfgetospeed
+                0x0000000000405f96                cfsetispeed
+                0x0000000000405fa0                cfsetospeed
+                0x0000000000405faa                cfsetspeed
+ .text          0x0000000000405fb4       0x3d ioctl.o
+                0x0000000000405fb4                ioctl
+ .text          0x0000000000405ff1       0x28 stubs.o
+                0x0000000000405ff1                gramado_system_call
+                0x0000000000407000                . = ALIGN (0x1000)
+ *fill*         0x0000000000406019      0xfe7 
 
-.iplt           0x0000000000406000        0x0
- .iplt          0x0000000000406000        0x0 crt0.o
+.iplt           0x0000000000407000        0x0
+ .iplt          0x0000000000407000        0x0 crt0.o
 
-.rodata         0x0000000000406000      0xa79
- .rodata        0x0000000000406000       0x74 crt0.o
- .rodata        0x0000000000406074       0x29 main.o
- *fill*         0x000000000040609d        0x3 
- .rodata        0x00000000004060a0      0x100 ctype.o
-                0x00000000004060a0                _ctype
- .rodata        0x00000000004061a0      0x329 stdio.o
-                0x0000000000406300                hex2ascii_data
- *fill*         0x00000000004064c9        0x7 
- .rodata        0x00000000004064d0      0x520 stdlib.o
- .rodata        0x00000000004069f0       0x89 unistd.o
+.rodata         0x0000000000407000      0xa79
+ .rodata        0x0000000000407000       0x74 crt0.o
+ .rodata        0x0000000000407074       0x29 main.o
+ *fill*         0x000000000040709d        0x3 
+ .rodata        0x00000000004070a0      0x100 ctype.o
+                0x00000000004070a0                _ctype
+ .rodata        0x00000000004071a0      0x329 stdio.o
+                0x0000000000407300                hex2ascii_data
+ *fill*         0x00000000004074c9        0x7 
+ .rodata        0x00000000004074d0      0x520 stdlib.o
+ .rodata        0x00000000004079f0       0x89 unistd.o
 
-.eh_frame       0x0000000000406a7c     0x1d00
- .eh_frame      0x0000000000406a7c       0x34 crt0.o
- .eh_frame      0x0000000000406ab0       0x34 main.o
+.eh_frame       0x0000000000407a7c     0x1ea0
+ .eh_frame      0x0000000000407a7c       0x34 crt0.o
+ .eh_frame      0x0000000000407ab0       0x34 main.o
                                          0x4c (size before relaxing)
- .eh_frame      0x0000000000406ae4      0xb74 stdio.o
+ .eh_frame      0x0000000000407ae4      0xb74 stdio.o
                                         0xb8c (size before relaxing)
- .eh_frame      0x0000000000407658      0x600 stdlib.o
+ .eh_frame      0x0000000000408658      0x600 stdlib.o
                                         0x618 (size before relaxing)
- .eh_frame      0x0000000000407c58      0x4c0 string.o
+ .eh_frame      0x0000000000408c58      0x4c0 string.o
                                         0x4d8 (size before relaxing)
- .eh_frame      0x0000000000408118       0x40 time.o
+ .eh_frame      0x0000000000409118       0x40 time.o
                                          0x58 (size before relaxing)
- .eh_frame      0x0000000000408158      0x600 unistd.o
+ .eh_frame      0x0000000000409158      0x600 unistd.o
                                         0x618 (size before relaxing)
- .eh_frame      0x0000000000408758       0x24 stubs.o
+ .eh_frame      0x0000000000409758      0x180 termios.o
+                                        0x198 (size before relaxing)
+ .eh_frame      0x00000000004098d8       0x20 ioctl.o
+                                         0x38 (size before relaxing)
+ .eh_frame      0x00000000004098f8       0x24 stubs.o
                                          0x3c (size before relaxing)
 
-.rel.dyn        0x000000000040877c        0x0
- .rel.got       0x000000000040877c        0x0 crt0.o
- .rel.iplt      0x000000000040877c        0x0 crt0.o
- .rel.text      0x000000000040877c        0x0 crt0.o
+.rel.dyn        0x000000000040991c        0x0
+ .rel.got       0x000000000040991c        0x0 crt0.o
+ .rel.iplt      0x000000000040991c        0x0 crt0.o
+ .rel.text      0x000000000040991c        0x0 crt0.o
 
-.data           0x0000000000408780      0x880
-                0x0000000000408780                data = .
-                0x0000000000408780                _data = .
-                0x0000000000408780                __data = .
+.data           0x0000000000409920      0x6e0
+                0x0000000000409920                data = .
+                0x0000000000409920                _data = .
+                0x0000000000409920                __data = .
  *(.data)
- .data          0x0000000000408780       0x14 crt0.o
- .data          0x0000000000408794        0x0 main.o
- .data          0x0000000000408794        0x0 ctype.o
- .data          0x0000000000408794        0x0 stdio.o
- *fill*         0x0000000000408794        0x4 
- .data          0x0000000000408798        0x8 stdlib.o
-                0x0000000000408798                _infinity
- .data          0x00000000004087a0        0x0 string.o
- .data          0x00000000004087a0        0x0 time.o
- .data          0x00000000004087a0        0x0 unistd.o
- .data          0x00000000004087a0        0x0 stubs.o
-                0x0000000000409000                . = ALIGN (0x1000)
- *fill*         0x00000000004087a0      0x860 
+ .data          0x0000000000409920       0x14 crt0.o
+ .data          0x0000000000409934        0x0 main.o
+ .data          0x0000000000409934        0x0 ctype.o
+ .data          0x0000000000409934        0x0 stdio.o
+ *fill*         0x0000000000409934        0x4 
+ .data          0x0000000000409938        0x8 stdlib.o
+                0x0000000000409938                _infinity
+ .data          0x0000000000409940        0x0 string.o
+ .data          0x0000000000409940        0x0 time.o
+ .data          0x0000000000409940        0x0 unistd.o
+ .data          0x0000000000409940        0x0 termios.o
+ .data          0x0000000000409940        0x0 ioctl.o
+ .data          0x0000000000409940        0x0 stubs.o
+                0x000000000040a000                . = ALIGN (0x1000)
+ *fill*         0x0000000000409940      0x6c0 
 
-.got            0x0000000000409000        0x0
- .got           0x0000000000409000        0x0 crt0.o
+.got            0x000000000040a000        0x0
+ .got           0x000000000040a000        0x0 crt0.o
 
-.got.plt        0x0000000000409000        0x0
- .got.plt       0x0000000000409000        0x0 crt0.o
+.got.plt        0x000000000040a000        0x0
+ .got.plt       0x000000000040a000        0x0 crt0.o
 
-.igot.plt       0x0000000000409000        0x0
- .igot.plt      0x0000000000409000        0x0 crt0.o
+.igot.plt       0x000000000040a000        0x0
+ .igot.plt      0x000000000040a000        0x0 crt0.o
 
-.bss            0x0000000000409000     0xa644
-                0x0000000000409000                bss = .
-                0x0000000000409000                _bss = .
-                0x0000000000409000                __bss = .
+.bss            0x000000000040a000     0xa644
+                0x000000000040a000                bss = .
+                0x000000000040a000                _bss = .
+                0x000000000040a000                __bss = .
  *(.bss)
- .bss           0x0000000000409000        0x0 crt0.o
- .bss           0x0000000000409000        0x0 main.o
- .bss           0x0000000000409000        0x0 ctype.o
- .bss           0x0000000000409000        0x9 stdio.o
- *fill*         0x0000000000409009       0x17 
- .bss           0x0000000000409020     0x8020 stdlib.o
-                0x0000000000409020                environ
- .bss           0x0000000000411040        0x4 string.o
- .bss           0x0000000000411044        0x0 time.o
- *fill*         0x0000000000411044       0x1c 
- .bss           0x0000000000411060      0x19f unistd.o
-                0x0000000000411060                __execv_environ
- .bss           0x00000000004111ff        0x0 stubs.o
-                0x0000000000412000                . = ALIGN (0x1000)
- *fill*         0x00000000004111ff      0xe01 
- COMMON         0x0000000000412000      0xd08 crt0.o
-                0x0000000000412000                g_cursor_x
-                0x0000000000412004                stdout
-                0x0000000000412008                g_char_attrib
-                0x000000000041200c                g_rows
-                0x0000000000412020                Streams
-                0x00000000004120a0                g_using_gui
-                0x00000000004120c0                prompt_out
-                0x00000000004124c0                g_columns
-                0x00000000004124c4                prompt_pos
-                0x00000000004124c8                stdin
-                0x00000000004124cc                prompt_status
-                0x00000000004124e0                prompt_err
-                0x00000000004128e0                stderr
-                0x0000000000412900                prompt
-                0x0000000000412d00                g_cursor_y
-                0x0000000000412d04                prompt_max
- COMMON         0x0000000000412d08        0x0 stdio.o
- *fill*         0x0000000000412d08       0x18 
- COMMON         0x0000000000412d20      0x878 stdlib.o
-                0x0000000000412d20                mm_prev_pointer
-                0x0000000000412d40                mmblockList
-                0x0000000000413140                last_valid
-                0x0000000000413160                heapList
-                0x0000000000413560                libcHeap
-                0x0000000000413564                randseed
-                0x0000000000413568                heap_start
-                0x000000000041356c                g_available_heap
-                0x0000000000413570                g_heap_pointer
-                0x0000000000413574                HEAP_SIZE
-                0x0000000000413578                mmblockCount
-                0x000000000041357c                last_size
-                0x0000000000413580                heap_end
-                0x0000000000413584                HEAP_END
-                0x0000000000413588                Heap
-                0x000000000041358c                current_mmblock
-                0x0000000000413590                heapCount
-                0x0000000000413594                HEAP_START
- *fill*         0x0000000000413598        0x8 
- COMMON         0x00000000004135a0       0xa4 unistd.o
-                0x00000000004135a0                errno
-                0x00000000004135a4                optarg
-                0x00000000004135a8                opterr
-                0x00000000004135ac                my__p
-                0x00000000004135b0                optind
-                0x00000000004135c0                __Hostname_buffer
-                0x0000000000413600                __Login_buffer
-                0x0000000000413640                optopt
-                0x0000000000413644                end = .
-                0x0000000000413644                _end = .
-                0x0000000000413644                __end = .
+ .bss           0x000000000040a000        0x0 crt0.o
+ .bss           0x000000000040a000        0x0 main.o
+ .bss           0x000000000040a000        0x0 ctype.o
+ .bss           0x000000000040a000        0x9 stdio.o
+ *fill*         0x000000000040a009       0x17 
+ .bss           0x000000000040a020     0x8020 stdlib.o
+                0x000000000040a020                environ
+ .bss           0x0000000000412040        0x4 string.o
+ .bss           0x0000000000412044        0x0 time.o
+ *fill*         0x0000000000412044       0x1c 
+ .bss           0x0000000000412060      0x19f unistd.o
+                0x0000000000412060                __execv_environ
+ .bss           0x00000000004121ff        0x0 termios.o
+ .bss           0x00000000004121ff        0x0 ioctl.o
+ .bss           0x00000000004121ff        0x0 stubs.o
+                0x0000000000413000                . = ALIGN (0x1000)
+ *fill*         0x00000000004121ff      0xe01 
+ COMMON         0x0000000000413000      0xd08 crt0.o
+                0x0000000000413000                g_cursor_x
+                0x0000000000413004                stdout
+                0x0000000000413008                g_char_attrib
+                0x000000000041300c                g_rows
+                0x0000000000413020                Streams
+                0x00000000004130a0                g_using_gui
+                0x00000000004130c0                prompt_out
+                0x00000000004134c0                g_columns
+                0x00000000004134c4                prompt_pos
+                0x00000000004134c8                stdin
+                0x00000000004134cc                prompt_status
+                0x00000000004134e0                prompt_err
+                0x00000000004138e0                stderr
+                0x0000000000413900                prompt
+                0x0000000000413d00                g_cursor_y
+                0x0000000000413d04                prompt_max
+ COMMON         0x0000000000413d08        0x0 stdio.o
+ *fill*         0x0000000000413d08       0x18 
+ COMMON         0x0000000000413d20      0x878 stdlib.o
+                0x0000000000413d20                mm_prev_pointer
+                0x0000000000413d40                mmblockList
+                0x0000000000414140                last_valid
+                0x0000000000414160                heapList
+                0x0000000000414560                libcHeap
+                0x0000000000414564                randseed
+                0x0000000000414568                heap_start
+                0x000000000041456c                g_available_heap
+                0x0000000000414570                g_heap_pointer
+                0x0000000000414574                HEAP_SIZE
+                0x0000000000414578                mmblockCount
+                0x000000000041457c                last_size
+                0x0000000000414580                heap_end
+                0x0000000000414584                HEAP_END
+                0x0000000000414588                Heap
+                0x000000000041458c                current_mmblock
+                0x0000000000414590                heapCount
+                0x0000000000414594                HEAP_START
+ *fill*         0x0000000000414598        0x8 
+ COMMON         0x00000000004145a0       0xa4 unistd.o
+                0x00000000004145a0                errno
+                0x00000000004145a4                optarg
+                0x00000000004145a8                opterr
+                0x00000000004145ac                my__p
+                0x00000000004145b0                optind
+                0x00000000004145c0                __Hostname_buffer
+                0x0000000000414600                __Login_buffer
+                0x0000000000414640                optopt
+                0x0000000000414644                end = .
+                0x0000000000414644                _end = .
+                0x0000000000414644                __end = .
 LOAD crt0.o
 LOAD main.o
 LOAD ctype.o
@@ -433,6 +456,8 @@ LOAD stdlib.o
 LOAD string.o
 LOAD time.o
 LOAD unistd.o
+LOAD termios.o
+LOAD ioctl.o
 LOAD stubs.o
 OUTPUT(CAT.BIN elf32-i386)
 
@@ -446,6 +471,8 @@ OUTPUT(CAT.BIN elf32-i386)
  .comment       0x0000000000000011       0x12 string.o
  .comment       0x0000000000000011       0x12 time.o
  .comment       0x0000000000000011       0x12 unistd.o
+ .comment       0x0000000000000011       0x12 termios.o
+ .comment       0x0000000000000011       0x12 ioctl.o
  .comment       0x0000000000000011       0x12 stubs.o
 
 .note.GNU-stack
@@ -466,5 +493,9 @@ OUTPUT(CAT.BIN elf32-i386)
                 0x0000000000000000        0x0 time.o
  .note.GNU-stack
                 0x0000000000000000        0x0 unistd.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 termios.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ioctl.o
  .note.GNU-stack
                 0x0000000000000000        0x0 stubs.o

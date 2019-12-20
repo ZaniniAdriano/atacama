@@ -1,4 +1,4 @@
-#jackpot for gde  hello.bin
+#
 
 #history:
 #2019 - Created by Fred Nora.
@@ -13,7 +13,7 @@ VERSION = 0
 PATCHLEVEL = 0
 SUBLEVEL = 0
 EXTRAVERSION =
-#NAME = jackpot
+#NAME = 
 
 #todo:
 #We need to simplify these flags
@@ -43,9 +43,10 @@ CFLAGS = -m32 \
 #APIOBJ  = ../../lib/gdelibs/api01/obj
 
 
-LIBC    = ../../lib/libc02/include/
-LIBCOBJ = ../../lib/libc02/obj
-API02   = ../../lib/api02/include/
+LIBC    = ../../lib/libc03/include/
+LIBCOBJ = ../../lib/libc03/obj
+
+API     = ../../lib/api02/include/
 APIOBJ  = ../../lib/api02/obj
 
 
@@ -60,8 +61,9 @@ stdio.o \
 stdlib.o \
 string.o \
 time.o \
-api.o \
 unistd.o \
+termios.o \
+ioctl.o \
 stubs.o    
 
 
@@ -72,21 +74,23 @@ all: main.o all-c jackpot-link finalize clean
 	@echo "Ok?"
 
 main.o:
-	gcc  -c  main.c  $(CFLAGS) -I $(LIBC) -I $(API02) -o main.o
+	gcc  -c  main.c  $(CFLAGS) -I $(LIBC) -I $(API) -o main.o
 
 all-c:
-	cp $(APIOBJ)/api.o      .
-	
+
+	cp $(LIBCOBJ)/crt0.o   .
+	cp $(LIBCOBJ)/stubs.o  .
+
 	cp $(LIBCOBJ)/ctype.o   .
 	cp $(LIBCOBJ)/stdio.o .
 	cp $(LIBCOBJ)/stdlib.o .
 	cp $(LIBCOBJ)/string.o .
 	cp $(LIBCOBJ)/time.o    .
 	cp $(LIBCOBJ)/unistd.o  .
-	cp $(LIBCOBJ)/stubs.o  .
-	
-#test
-	cp $(LIBCOBJ)/crt0.o   .
+
+	cp $(LIBCOBJ)/termios.o  .
+	cp $(LIBCOBJ)/ioctl.o  .
+
 
 
 

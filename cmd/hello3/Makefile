@@ -53,6 +53,8 @@ string.o \
 time.o \
 api.o \
 unistd.o \
+termios.o \
+ioctl.o \
 stubs.o    
 
 
@@ -75,8 +77,12 @@ all-c:
 	cp $(LIBCOBJ)/string.o .
 	cp $(LIBCOBJ)/time.o    .
 	cp $(LIBCOBJ)/unistd.o  .
+	
+	cp $(LIBCOBJ)/termios.o  .
+	cp $(LIBCOBJ)/ioctl.o  .
+	
 	cp $(LIBCOBJ)/stubs.o  .
-	cp $(LIBCOBJ)/crt0.o  .	
+	cp $(LIBCOBJ)/crt0.o  .
 
 tascii-link:
 	ld -m elf_i386 -T link.ld -o HELLO3.BIN $(myObjects) -Map app_map.s

@@ -103,13 +103,13 @@ all-c:
 	cp $(LIBCOBJ)/sprintf.o  .	
 	
 glibct1-link:
-	ld -m elf_i386 -T link.ld -o GLIBCT1.BIN $(myObjects) -Map map.s
+	ld -m elf_i386 -T link.ld -o TGLIBC.BIN $(myObjects) -Map map.s
 
 finalize:
-	cp GLIBCT1.BIN  ../../bin
+	cp TGLIBC.BIN  ../../bin
 
 clean:
 	-rm *.o
-	-rm GLIBCT1.BIN 
+	-rm TGLIBC.BIN 
 	
 	

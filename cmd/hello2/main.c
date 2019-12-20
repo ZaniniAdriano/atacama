@@ -50,8 +50,10 @@ __PostMessageToProcess ( int pid,
 	message_buffer[3] = (unsigned long) long2;
 	//...
 
-	return (int) system_call ( 112 , (unsigned long) &message_buffer[0], 
-	                 (unsigned long) pid, (unsigned long) pid );
+	return (int) gramado_system_call ( 112 , 
+	                 (unsigned long) &message_buffer[0], 
+	                 (unsigned long) pid, 
+	                 (unsigned long) pid );
 }
 
 

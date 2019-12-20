@@ -45,6 +45,8 @@ stdlib.o \
 string.o \
 time.o \
 unistd.o \
+termios.o \
+ioctl.o \
 stubs.o
 
 
@@ -61,7 +63,6 @@ main.o:
 all-c:
 
 	cp $(LIBCOBJ)/crt0.o  .
-		
 	cp $(LIBCOBJ)/stubs.o  .
 	
 	cp $(LIBCOBJ)/ctype.o   .
@@ -71,7 +72,9 @@ all-c:
 	cp $(LIBCOBJ)/time.o    .
 	cp $(LIBCOBJ)/unistd.o  .
 
-#	cp $(APIOBJ)/api.o      .
+	cp $(LIBCOBJ)/termios.o  .
+	cp $(LIBCOBJ)/ioctl.o  .
+
 	
 cat-link:
 	ld -m elf_i386 -T link.ld -o CAT.BIN $(myObjects) -Map map.s

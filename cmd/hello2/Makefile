@@ -51,8 +51,9 @@ stdio.o \
 stdlib.o \
 string.o \
 time.o \
-api.o \
 unistd.o \
+termios.o \
+ioctl.o \
 stubs.o    
 
 
@@ -67,16 +68,20 @@ main.o:
 	gcc  -c  main.c  $(CFLAGS) -I $(LIBC) -I $(API01) -o main.o
 
 all-c:
-	cp $(APIOBJ)/api.o      .
-	
+
+	cp $(LIBCOBJ)/crt0.o  .
+	cp $(LIBCOBJ)/stubs.o  .
+
 	cp $(LIBCOBJ)/ctype.o   .
 	cp $(LIBCOBJ)/stdio.o .
 	cp $(LIBCOBJ)/stdlib.o .
 	cp $(LIBCOBJ)/string.o .
 	cp $(LIBCOBJ)/time.o    .
 	cp $(LIBCOBJ)/unistd.o  .
-	cp $(LIBCOBJ)/stubs.o  .
-	cp $(LIBCOBJ)/crt0.o  .	
+	
+	cp $(LIBCOBJ)/termios.o  .
+	cp $(LIBCOBJ)/ioctl.o  .
+
 
 tascii-link:
 	ld -m elf_i386 -T link.ld -o HELLO2.BIN $(myObjects) -Map app_map.s

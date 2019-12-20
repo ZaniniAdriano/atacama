@@ -79,7 +79,7 @@ int main ( int argc, char *argv[] ){
 	//fp1 = (FILE *) system_call ( 1006, 0, 0, 0 );
 	
 	//get current tty stdou_ring0
-	fp1 = (FILE *) system_call ( 1000, 0, 0, 0 );
+	fp1 = (FILE *) gramado_system_call ( 1000, 0, 0, 0 );
 	
     stdout = fp1;
 	
@@ -103,7 +103,7 @@ int main ( int argc, char *argv[] ){
 	//get terminal pid
 	//avisa o terminal que ele pode imprimir as mesangens pendentes que estao na stream
 		
-	terminal_PID = (int) system_call ( 1004, 0, 0, 0 );
+	terminal_PID = (int) gramado_system_call ( 1004, 0, 0, 0 );
 	
 	__SendMessageToProcess ( terminal_PID, 0, MSG_TERMINALCOMMAND, 2000, 2000 );
 	
@@ -381,8 +381,10 @@ __SendMessageToProcess ( int pid,
 	message_buffer[3] = (unsigned long) long2;
 	//...
 
-	return (int) system_call ( 112 , (unsigned long) &message_buffer[0], 
-	                 (unsigned long) pid, (unsigned long) pid );
+	return (int) gramado_system_call ( 112, 
+	                 (unsigned long) &message_buffer[0], 
+	                 (unsigned long) pid, 
+	                 (unsigned long) pid );
 }
 
 

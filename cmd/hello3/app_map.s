@@ -403,10 +403,25 @@ Linker script and memory map
                 0x0000000000407fac                ttyname_r
                 0x0000000000407fb6                isatty
                 0x0000000000407fd9                getopt
- .text          0x0000000000407fe3       0x28 stubs.o
-                0x0000000000407fe3                gramado_system_call
+ .text          0x0000000000407fe3      0x165 termios.o
+                0x0000000000407fe3                tcgetattr
+                0x0000000000408001                tcsetattr
+                0x000000000040807a                tcsendbreak
+                0x0000000000408084                tcdrain
+                0x000000000040808e                tcflush
+                0x0000000000408098                tcflow
+                0x00000000004080a2                cfmakeraw
+                0x0000000000408114                cfgetispeed
+                0x000000000040811f                cfgetospeed
+                0x000000000040812a                cfsetispeed
+                0x0000000000408134                cfsetospeed
+                0x000000000040813e                cfsetspeed
+ .text          0x0000000000408148       0x3d ioctl.o
+                0x0000000000408148                ioctl
+ .text          0x0000000000408185       0x28 stubs.o
+                0x0000000000408185                gramado_system_call
                 0x0000000000409000                . = ALIGN (0x1000)
- *fill*         0x000000000040800b      0xff5 
+ *fill*         0x00000000004081ad      0xe53 
 
 .iplt           0x0000000000409000        0x0
  .iplt          0x0000000000409000        0x0 crt0.o
@@ -425,7 +440,7 @@ Linker script and memory map
  *fill*         0x0000000000409f21        0x3 
  .rodata        0x0000000000409f24       0x89 unistd.o
 
-.eh_frame       0x0000000000409fb0     0x2a3c
+.eh_frame       0x0000000000409fb0     0x2bdc
  .eh_frame      0x0000000000409fb0       0x34 crt0.o
  .eh_frame      0x0000000000409fe4       0x44 main.o
                                          0x5c (size before relaxing)
@@ -441,33 +456,39 @@ Linker script and memory map
                                         0xd44 (size before relaxing)
  .eh_frame      0x000000000040c3c8      0x600 unistd.o
                                         0x618 (size before relaxing)
- .eh_frame      0x000000000040c9c8       0x24 stubs.o
+ .eh_frame      0x000000000040c9c8      0x180 termios.o
+                                        0x198 (size before relaxing)
+ .eh_frame      0x000000000040cb48       0x20 ioctl.o
+                                         0x38 (size before relaxing)
+ .eh_frame      0x000000000040cb68       0x24 stubs.o
                                          0x3c (size before relaxing)
 
-.rel.dyn        0x000000000040c9ec        0x0
- .rel.got       0x000000000040c9ec        0x0 crt0.o
- .rel.iplt      0x000000000040c9ec        0x0 crt0.o
- .rel.text      0x000000000040c9ec        0x0 crt0.o
+.rel.dyn        0x000000000040cb8c        0x0
+ .rel.got       0x000000000040cb8c        0x0 crt0.o
+ .rel.iplt      0x000000000040cb8c        0x0 crt0.o
+ .rel.text      0x000000000040cb8c        0x0 crt0.o
 
-.data           0x000000000040ca00      0x600
-                0x000000000040ca00                data = .
-                0x000000000040ca00                _data = .
-                0x000000000040ca00                __data = .
+.data           0x000000000040cba0      0x460
+                0x000000000040cba0                data = .
+                0x000000000040cba0                _data = .
+                0x000000000040cba0                __data = .
  *(.data)
- .data          0x000000000040ca00       0x14 crt0.o
- .data          0x000000000040ca14        0x0 main.o
- .data          0x000000000040ca14        0x0 ctype.o
- .data          0x000000000040ca14        0x0 stdio.o
- *fill*         0x000000000040ca14        0x4 
- .data          0x000000000040ca18        0x8 stdlib.o
-                0x000000000040ca18                _infinity
- .data          0x000000000040ca20        0x0 string.o
- .data          0x000000000040ca20        0x0 time.o
- .data          0x000000000040ca20      0x440 api.o
- .data          0x000000000040ce60        0x0 unistd.o
- .data          0x000000000040ce60        0x0 stubs.o
+ .data          0x000000000040cba0       0x14 crt0.o
+ .data          0x000000000040cbb4        0x0 main.o
+ .data          0x000000000040cbb4        0x0 ctype.o
+ .data          0x000000000040cbb4        0x0 stdio.o
+ *fill*         0x000000000040cbb4        0x4 
+ .data          0x000000000040cbb8        0x8 stdlib.o
+                0x000000000040cbb8                _infinity
+ .data          0x000000000040cbc0        0x0 string.o
+ .data          0x000000000040cbc0        0x0 time.o
+ .data          0x000000000040cbc0      0x440 api.o
+ .data          0x000000000040d000        0x0 unistd.o
+ .data          0x000000000040d000        0x0 termios.o
+ .data          0x000000000040d000        0x0 ioctl.o
+ .data          0x000000000040d000        0x0 stubs.o
                 0x000000000040d000                . = ALIGN (0x1000)
- *fill*         0x000000000040ce60      0x1a0 
+ *fill*         0x000000000040d000        0x0 
 
 .got            0x000000000040d000        0x0
  .got           0x000000000040d000        0x0 crt0.o
@@ -497,6 +518,8 @@ Linker script and memory map
  *fill*         0x000000000041d064       0x1c 
  .bss           0x000000000041d080      0x19f unistd.o
                 0x000000000041d080                __execv_environ
+ .bss           0x000000000041d21f        0x0 termios.o
+ .bss           0x000000000041d21f        0x0 ioctl.o
  .bss           0x000000000041d21f        0x0 stubs.o
                 0x000000000041e000                . = ALIGN (0x1000)
  *fill*         0x000000000041d21f      0xde1 
@@ -574,6 +597,8 @@ LOAD string.o
 LOAD time.o
 LOAD api.o
 LOAD unistd.o
+LOAD termios.o
+LOAD ioctl.o
 LOAD stubs.o
 OUTPUT(HELLO3.BIN elf32-i386)
 
@@ -588,6 +613,8 @@ OUTPUT(HELLO3.BIN elf32-i386)
  .comment       0x0000000000000011       0x12 time.o
  .comment       0x0000000000000011       0x12 api.o
  .comment       0x0000000000000011       0x12 unistd.o
+ .comment       0x0000000000000011       0x12 termios.o
+ .comment       0x0000000000000011       0x12 ioctl.o
  .comment       0x0000000000000011       0x12 stubs.o
 
 .note.GNU-stack
@@ -610,5 +637,9 @@ OUTPUT(HELLO3.BIN elf32-i386)
                 0x0000000000000000        0x0 api.o
  .note.GNU-stack
                 0x0000000000000000        0x0 unistd.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 termios.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 ioctl.o
  .note.GNU-stack
                 0x0000000000000000        0x0 stubs.o
