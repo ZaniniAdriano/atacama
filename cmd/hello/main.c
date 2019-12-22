@@ -68,6 +68,39 @@ int main ( int argc, char *argv[] ){
 	int terminal_PID;
 	#define MSG_TERMINALCOMMAND 100 //provisório
 	
+
+    int __terminal_pid = -1;
+    
+    
+    libc_set_output_mode (LIBC_DRAW_MODE);
+    
+    //get terminal pid.
+    __terminal_pid = (int) gramado_system_call ( 1004, 0, 0, 0 ); 
+    
+    if ( __terminal_pid < 0)
+    {
+		printf ("We couldn'd connect to a virtual terminal! *exit");
+		exit (-1);
+    }
+    
+    printf ("Terminal PID %d \n",__terminal_pid);
+
+
+
+    // Configurando o stdout da CurrentTTY,
+    // Lugar de onde o terminal pega os chars
+    // Passremos nossa stdout, usada pela nossa libc.
+
+    gramado_system_call ( 1001, stdout, stdout, stdout );
+
+	// #importante:
+	// Habilitando o modo normal e usando ele até o fim.
+	
+    libc_set_output_mode (LIBC_NORMAL_MODE);
+
+	fprintf ( stdout, "hello: Hello and bye!\n");
+    exit(0);
+	
 	//reset tty stream
 	//system_call ( 1005, 0, 0, 0 );
 	
@@ -79,8 +112,8 @@ int main ( int argc, char *argv[] ){
 	//fp1 = (FILE *) system_call ( 1006, 0, 0, 0 );
 	
 	//get current tty stdout_ring0
-	fp1 = (FILE *) gramado_system_call ( 1000, 0, 0, 0 );
-    stdout = fp1;
+	//fp1 = (FILE *) gramado_system_call ( 1000, 0, 0, 0 );
+    //stdout = fp1;
 	
 	//opentty_fp = (FILE *) system_call ( 1000, getpid(), 0, 0 );
 	//fprintf (opentty_fp, "#### HELLO ###\n");
@@ -92,51 +125,25 @@ int main ( int argc, char *argv[] ){
 	// a rotina de clonagem tem que fazer o clone herdar o fluxo tambem
 	//ou pelo menos obter os arquivos do fluxo do kernel.
 	
-	printf ("HELLO.BIN: hello tentando no proprio stdout ... \n");
+	//printf ("HELLO.BIN: hello tentando no proprio stdout ... \n");
 	
-	fprintf ( stdout, "#### HELLO ###\n");
+	//fprintf ( stdout, "#### HELLO ###\n");
 	
-	printf ("HELLO.BIN: escreveu\n");
+	//printf ("HELLO.BIN: escreveu\n");
 	
 	//# isso funcionou.
 	//get terminal pid
 	//avisa o terminal que ele pode imprimir as mesangens pendentes que estao na stream
 		
-	terminal_PID = (int) gramado_system_call ( 1004, 0, 0, 0 );
+	//terminal_PID = (int) gramado_system_call ( 1004, 0, 0, 0 );
 	
-	__SendMessageToProcess ( terminal_PID, 0, MSG_TERMINALCOMMAND, 2000, 2000 );
+	//__SendMessageToProcess ( terminal_PID, 0, MSG_TERMINALCOMMAND, 2000, 2000 );
 	
-	printf ("hello.bin: done\n");
+	//printf ("hello.bin: done\n");
 	//while (1){}
 
-/*
-	int code = 0;
-	
-	printf ("\n");
-	printf ("####################################################\n");
-	  puts ("################## JackPot #########################\n");
-	printf ("####################################################\n");
-	printf ("\n");	
-	
-	
-	code = (int) jackpot_main ();
-	
-	switch (code) 
-	{
-	    
-        case 0:
-            exit (0);
-            break;	
-
-		default:	
-		    exit (code);
-			break;	
-	};
 	
 	return -1;
-	*/
-	
-	return 0;
 }
 
 
