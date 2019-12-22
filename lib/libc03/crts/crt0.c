@@ -40,6 +40,14 @@ extern int main ( int argc, char *argv[] );
 #define TOKENLIST_MAX_DEFAULT 80
 
 
+//
+// # importante
+//
+
+// Esses aplicativos rodam no terminal.
+// Esses aplicativos escrevem em stdout.
+// >>> O terminal precisa conhecer esse stdout para ler.
+
 int crt0 (){
 	
 	char *tokenList[TOKENLIST_MAX_DEFAULT];

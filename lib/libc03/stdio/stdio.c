@@ -1189,30 +1189,34 @@ int putchar (int __c)
 	// o final da funçao onde pintaremos o char na tela ao inv'es de 
 	// colocar no arquivo.
 
+	// #bugbug
+	// Teremos problemas se stdout não for um ponteiro válido.
+	// #bugbug
+	// Não podemos chamar o terminal à cada char.
+	// Então é mehlor usar fputc e filtrar o char.
+	//vamos tentar outr pois putc chama fputc e não fprintf.
+
 int putchar (int ch){
 
     if ( __libc_output_mode == LIBC_DRAW_MODE ){
 
-        gramado_system_call ( 65, (unsigned long) ch, (unsigned long) ch, 
+        gramado_system_call ( 65, 
+            (unsigned long) ch, 
+            (unsigned long) ch, 
             (unsigned long) ch );
 
     } else if ( __libc_output_mode == LIBC_NORMAL_MODE ){
 
-		// #bugbug
-		// Teremos problemas se stdout não for um ponteiro válido.
-		
-		// #bugbug
-		// Não podemos chamar o terminal à cada char.
-		// Então é mehlor usar fputc e filtrar o char.
-
-		//vamos tentar outr pois putc chama fputc e não fprintf.
-		fputc ( ch, stdout );
-		//fprintf ( stdout, "%c", ch );
+        fputc ( ch, stdout );
+        //fprintf ( stdout, "%c", ch );
     };
-
 
     return (int) ch;
 }
+
+
+
+
 
 
 

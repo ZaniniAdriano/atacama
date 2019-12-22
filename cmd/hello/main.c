@@ -78,9 +78,8 @@ int main ( int argc, char *argv[] ){
 	//get kernel stdout
 	//fp1 = (FILE *) system_call ( 1006, 0, 0, 0 );
 	
-	//get current tty stdou_ring0
+	//get current tty stdout_ring0
 	fp1 = (FILE *) gramado_system_call ( 1000, 0, 0, 0 );
-	
     stdout = fp1;
 	
 	//opentty_fp = (FILE *) system_call ( 1000, getpid(), 0, 0 );

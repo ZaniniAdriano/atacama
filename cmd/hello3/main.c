@@ -36,34 +36,40 @@ export const hidden = "\x1b[8m"
 #define STANDARD_ASCII_MAX 128
 
 
+
+
+
 int
 __PostMessageToProcess ( int pid, 
-                          unsigned long window, 
-                          int message,
-                          unsigned long long1,
-                          unsigned long long2 );
+                         unsigned long window, 
+                         int message,
+                         unsigned long long1,
+                         unsigned long long2 );
                           
 int
 __PostMessageToProcess ( int pid, 
-                          unsigned long window, 
-                          int message,
-                          unsigned long long1,
-                          unsigned long long2 )
+                         unsigned long window, 
+                         int message,
+                         unsigned long long1,
+                         unsigned long long2 )
 {
-	unsigned long message_buffer[5];
+    unsigned long message_buffer[5];
 
-	
+
     if (pid<0)
-		return -1;
-	
+        return -1;
+
 	message_buffer[0] = (unsigned long) window;
 	message_buffer[1] = (unsigned long) message;
 	message_buffer[2] = (unsigned long) long1;
 	message_buffer[3] = (unsigned long) long2;
 	//...
 
-	return (int) system_call ( 112 , (unsigned long) &message_buffer[0], 
-	                 (unsigned long) pid, (unsigned long) pid );
+
+    return (int) system_call ( 112 , 
+                     (unsigned long) &message_buffer[0], 
+                     (unsigned long) pid, 
+                     (unsigned long) pid );
 }
 
 
@@ -72,6 +78,11 @@ __PostMessageToProcess ( int pid,
  * main:
  * 
  */
+
+	// #IMPORTANTE:
+	// Apenas uma função de introdução usando o modo draw.
+	// Depois todas as outras devem usar o modo NORMAL.
+	// Nesse modo o terminal não será notificado.
 
 int main ( int argc, char *argv[] ){
 
@@ -82,24 +93,67 @@ int main ( int argc, char *argv[] ){
 
     char buffer[512];
     char buffer2[] = "DURTY...........";
-	
-	// #IMPORTANTE:
-	// Apenas uma função de introdução usando o modo draw.
-	// Depois todas as outras devem usar o modo NORMAL.
-	// Nesse modo o terminal não será notificado.
 
-    //#test
-    // Vamos suspender essa parte que usar o modo draw e
-    // testar diretamente o modo normal, onde a libc escreve
-    // em arquivo.
+    int __terminal_pid = -1;
+
+
+
+
+	//
+	// Draw mode
+	//
 
     //libc_set_output_mode (LIBC_DRAW_MODE);
     printf ("hello3: Testing libc in LIBC_DRAW_MODE ...\n"); 
+    printf ("hello3 PID %d \n", getpid() );
 
-	//#Opção: 
-	// Ao fim, isso habilita o modo normal.
-	// printf_draw ("hello2:printf_draw test\n"); 
-	
+
+    __terminal_pid = (int) gramado_system_call ( 1004, 0, 0, 0 ); 
+    
+    if ( __terminal_pid < 0)
+    {
+		printf ("We couldn'd connect to a virtual terminal! *exit");
+		exit (-1);
+    }
+    
+    printf ("Terminal PID %d \n",__terminal_pid);
+
+
+    //
+    // Say hello to terminal !
+    //
+
+    // msg 2001: O termilal dirá olá !
+    
+    unsigned long message_buffer[5];
+    
+    // Prepara o buffer.
+    // window, MSG_TERMINALCOMMAND, 2001, 2001.
+    message_buffer[0] = (unsigned long) 0;    //window
+    message_buffer[1] = (unsigned long) 100;  //message;  
+    message_buffer[2] = (unsigned long) 2001; //long1; 
+    message_buffer[3] = (unsigned long) 2001; //long2; 
+
+        // Pede para o kernel enviar uma mensagem para determinado processo.
+        gramado_system_call ( 112 , 
+              (unsigned long) &message_buffer[0], 
+              (unsigned long) __terminal_pid, 
+              (unsigned long) __terminal_pid );
+                         
+ 
+    // #importante
+    // Já que conseguimos nos comunicar com  o terminal,
+    // então podemos pedir para ele usar nosso stdout para
+    // pegar o input.
+
+
+    // Configurando o stdout da CurrentTTY,
+    // Lugar de onde o terminal pega os chars
+    // Passremos nossa stdout, usada pela nossa libc.
+
+    gramado_system_call ( 1001, stdout, stdout, stdout );
+
+
 	//
 	// Normal mode
 	//
@@ -107,8 +161,8 @@ int main ( int argc, char *argv[] ){
 	// #importante:
 	// Habilitando o modo normal e usando ele até o fim.
 	
-	libc_set_output_mode (LIBC_NORMAL_MODE);
-	printf ("hello3: Testing libc in LIBC_NORMAL_MODE ...\n"); 
+    libc_set_output_mode (LIBC_NORMAL_MODE);
+    printf ("hello3: Testing libc in LIBC_NORMAL_MODE ...\n"); 
 
 	printf (" ==== Begin of test ==== \n");
 	
@@ -277,12 +331,6 @@ int main ( int argc, char *argv[] ){
     //printf ("14 ");
     //printf ("15 \n");
     
-    //printf ("Esse eh um texto grande .... um texto realmente grand ..... ooops\n");
-	printf ("almost \n *hg... \n");  
-	//printf ("*hang\n");
-	printf (" ==== End of test ====\n");
-    while(1){}
-    
 	//#bugbug
 	//Esse segundo teste não funcionou.
 	//depois do \n a libc não se comportou como esperado.
@@ -293,6 +341,22 @@ int main ( int argc, char *argv[] ){
 	//printf ("{\x1b[0m} ");
 	//printf ("*fim-do-test\n");
 			    
+    //printf ("Esse eh um texto grande .... um texto realmente grand ..... ooops\n");
+	printf ("almost \n *hg... \n");  
+	//printf ("*hang\n");
+	printf (" ==== End of test ====\n");
+	
+
+done: 
+
+	//
+	// Draw mode
+	//
+
+    libc_set_output_mode (LIBC_DRAW_MODE);
+    printf ("hello3: Done *hang\n"); 
+    while(1){}
+
     
     // Testando a saída normal.
     // Aqui retornamos para o crt0.o.
